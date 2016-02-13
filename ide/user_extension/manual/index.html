@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+	<meta charset="UTF-8" >
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, width=device-width">
+
+	<meta name="robots" content="index,follow" />
+	<meta name="robots" content="noodp,noydir" />
+
+	<meta name="author" content="iris" />
+	<meta name="description" content="同人プロデュースサークル Project ICKXが展開する、Selenium-IDE User Extensionのサイトです。" />
+	<meta name="keywords" content="Project ICKX,JavaScript,Selenium,Selenium-IDE,extension" />
+
+	<title>Project ICKX Selenium-IDE User Extension</title>
+
+	<link rel="stylesheet" href="./css/skyblue.css">
+
+	<link rel="stylesheet" href="./css/docs.css">
+	<link rel="stylesheet" href="./css/prettify.css">
+
+
+	<!--[if lt IE 9]>
+		<script type="text/javascript" src="./css/ie/htmlshiv.js"></script>
+		<script type="text/javascript" src="./css/ie/respond.src.js"></script>
+	<![endif]-->
+
+	<style>
+		th.nowrap {
+			white-space : nowrap;
+		}
+		td.pre {
+			white-space : pre;
+		}
+	</style>
+</head>
+<body onload="prettyPrint()">
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-52251466-6', 'auto');
+  ga('send', 'pageview');
+
+</script>
+
+<header>
+	<div class="bg-dark padding-y-20">
+		<div class="container text-center">
+			<h1>Project ICKX Selenium-IDE User Extension</h1>
+
+			<a class="btn btn-info" href="./IckxSeIdeExt.zip" onclick="ga('send', 'event', 'archive', 'download', 'IckxSeIdeExt.zip', 1);">Download .zip</a>
+			<div>
+				By <a href="https://twitter.com/effy_staffs" target="_blank">Akira Wakaba</a> @ <a href="http://www.ickx.jp/">Project ICKX</a><br />
+			</div>
+		</div>
+	</div>
+</header>
+
+<div class="container">
+	<div class="row">
+		<nav>
+			<div class="col md-3">
+				<div class="sidemenu js-sidemenu">
+					<div>
+						<h5>Index</h5>
+						<a href="#about">About</a>
+						<a href="#command_index">Command Index</a>
+						<a href="#commands">Commands</a>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<main>
+			<div class="col md-9">
+				<article>
+					<h2 id="about">About</h2>
+					<p>
+						この拡張はSelenium-IDEを使う時の、痒いところに手を届かせるためのSelenium-IDEユーザ拡張です。
+					</p>
+
+					<p>
+						例えば・・・
+						<ul>
+							<li>同じ入力フォームに対して複数の値を連続で試したい場合。</li>
+							<li>ページ遷移時必ずレイアウトチェックをしたい場合。</li>
+							<li>テストケースとは別にテスト値を管理したい場合。</li>
+						</ul>
+						この拡張はこれらの問題を解決します！
+					</p>
+
+					<p>
+						商用、非商用問わずにご自由にご利用ください！<br />
+						ライセンスは<a href="https://github.com/Stanko/skyblue/blob/gh-pages/LICENSE.md">MIT license</a>です。
+					</p>
+
+					<p>
+						Selenium-IDEへのユーザ拡張の導入は、<a href="http://oss.infoscience.co.jp/seleniumhq/docs/03_selenium_ide.html#id34">Selenium-IDE — Selenium 日本語ドキュメント</a>の"ユーザー拡張スクリプト"の項目を参照してください。<br />
+						※複数のユーザ拡張を使用する場合、各ユーザ拡張のパスを";"(セミコロン)で結合することで同居させることができます。
+					</p>
+
+					<p>
+						それでは良いテストを :)
+					</p>
+				</article>
+
+				<article>
+					<h2 id="caution">Caution</h2>
+					<p>
+						arrayForeachコマンド、whileコマンドは次の拡張とは初期化処理で競合するため同時に使用できません。
+					</p>
+
+					<p>
+						<ul>
+							<li><a href="https://addons.mozilla.org/ja/firefox/addon/selenium-ide-sel-blocks/">SelBlocks (for Selenium IDE) :: Add-ons for Firefox</a></li>
+						</ul>
+					</p>
+
+					<p>
+						arrayForeachコマンド、whileコマンドを使用する場合は、競合する拡張を無効化、またはアンインストールしてください。
+					</p>
+				</article>
+
+				<article>
+					<h2 id="command_index">Command index</h2>
+
+					<section>
+						<h3></h3>
+						<table class="table table-striped table-bordered table-hover">
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Command</th>
+									<th>Description</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>1</td>
+									<td><a href="#getImWidth">getImWidth(value)</a></td>
+									<td>PHPのmb_strimwidthと同様の機能を提供します。</td>
+								</tr>
+								<tr>
+									<td>2</td>
+									<td><a href="#getRealValue">getRealValue(locator)</a></td>
+									<td>ロケ―ターで指定された要素の値を取得し、trimせずに返します。</td>
+								</tr>
+								<tr>
+									<td>3</td>
+									<td><a href="#getRealText">getRealText(locator)</a></td>
+									<td>ロケ―ターで指定された要素のテキストを取得し、trimせずに返します。</td>
+								</tr>
+								<tr>
+									<td>4</td>
+									<td><a href="#getClosestTrXpath">getClosestTrXpath(locator)</a></td>
+									<td>ロケ―ターで指定された要素が属する直近のtr要素のXPathを取得します。</td>
+								</tr>
+								<tr>
+									<td>5</td>
+									<td><a href="#getRowIndex">getRowIndex(locator, store_name)</a></td>
+									<td>ロケ―ターで指定された要素が属するテーブル内での行数をストアします。</td>
+								</tr>
+								<tr>
+									<td>6</td>
+									<td><a href="#getElement">getElement(locator, store_name)</a></td>
+									<td>ロケ―ターで指定された要素をストアします。</td>
+								</tr>
+								<tr>
+									<td>7</td>
+									<td><a href="#storeTextContent">storeTextContent(locator)</a></td>
+									<td>ロケ―ターで指定された要素のtextContentを返します。</td>
+								</tr>
+								<tr>
+									<td>8</td>
+									<td><a href="#getInnerHtml">getInnerHtml(locator)</a></td>
+									<td>ロケ―ターで指定された要素のinnerHTMLを返します。</td>
+								</tr>
+								<tr>
+									<td>9</td>
+									<td><a href="#getTrimmedInnerHtml">getTrimmedInnerHtml(locator)</a></td>
+									<td>ロケ―ターで指定された要素のtrim済みinnerHTMLを返します。</td>
+								</tr>
+								<tr>
+									<td>10</td>
+									<td><a href="#getVar">getVar(store_name)</a></td>
+									<td>指定したストア名の値を取得します。</td>
+								</tr>
+								<tr>
+									<td>11</td>
+									<td><a href="#getTableRowIndex">getTableRowIndex(locator)</a></td>
+									<td>ロケ―ターで指定された要素のテーブル内での行数を返します。</td>
+								</tr>
+								<tr>
+									<td>12</td>
+									<td><a href="#getTableRowIndexOdd">getTableRowIndexOdd(locator)</a></td>
+									<td>ロケ―ターで指定された要素のテーブル内での行数が奇数かどうかを返します。</td>
+								</tr>
+								<tr>
+									<td>13</td>
+									<td><a href="#storeFromTableRowIndexOdd">storeFromTableRowIndexOdd(locator, parameters)</a></td>
+									<td>ロケ―ターで指定された要素のテーブル内での行数が奇数かどうかをストアします。</td>
+								</tr>
+								<tr>
+									<td>14</td>
+									<td><a href="#setFilter">setFilter(filter_function, store_name)</a></td>
+									<td>フィルタ関数をストアします。</td>
+								</tr>
+								<tr>
+									<td>15</td>
+									<td><a href="#execFilter">execFilter(filter_name, store_name)</a></td>
+									<td>フィルタ関数を実行します。</td>
+								</tr>
+								<tr>
+									<td>16</td>
+									<td><a href="#lf2Br">lf2Br(html)</a></td>
+									<td>HTML文中の改行文字を&lt;br&gt;タグに置換します。</td>
+								</tr>
+								<tr>
+									<td>17</td>
+									<td><a href="#getSelectedIndex">getSelectedIndex(locator)</a></td>
+									<td>指定されたselectが現在選択しているindexを返します。</td>
+								</tr>
+								<tr>
+									<td>18</td>
+									<td><a href="#assertAdjustLfHtml">assertAdjustLfHtml(locator, pattern)</a></td>
+									<td>指定されたロケ―ターにあるHTMLと指定した文字列の改行文字を&lt;br&gt;タグに変換した上で、HTMLとして検証を行います。</td>
+								</tr>
+								<tr>
+									<td>19</td>
+									<td><a href="#assertAttributePresent">assertAttributePresent(locator, pattern)</a></td>
+									<td>指定されたロケ―ターに指定した要素があるか検証します。</td>
+								</tr>
+								<tr>
+									<td>20</td>
+									<td><a href="#assertAttributeNotPresent">assertAttributeNotPresent(locator, pattern)</a></td>
+									<td>指定されたロケ―ターに指定した要素がないか検証します。</td>
+								</tr>
+								<tr>
+									<td>21</td>
+									<td><a href="#remove">remove(locator)</a></td>
+									<td>指定されたロケ―ターにある要素を削除します。</td>
+								</tr>
+								<tr>
+									<td>22</td>
+									<td><a href="#assertDocType">assertDocType(doctype)</a></td>
+									<td>指定されたDOCTYPE宣言が行われているかどうか検証します。</td>
+								</tr>
+								<tr>
+									<td>23</td>
+									<td><a href="#assertDocTypeName">assertDocTypeName(name)</a></td>
+									<td>指定されたDOCTYPE名が設定されているかどうか検証します。</td>
+								</tr>
+								<tr>
+									<td>24</td>
+									<td><a href="#assertDocTypePublicId">assertDocTypePublicId(public_id)</a></td>
+									<td>指定されたDOCTYPE publicIdが設定されているかどうか検証します。</td>
+								</tr>
+								<tr>
+									<td>25</td>
+									<td><a href="#assertDocTypeSystemID">assertDocTypeSystemID(system_id)</a></td>
+									<td>指定されたDOCTYPE systemIdが設定されているかどうか検証します。</td>
+								</tr>
+								<tr>
+									<td>26</td>
+									<td><a href="#openPreProcess">openPreProcess(url, ignoreResponseCode)</a></td>
+									<td>拡張変数の事前展開を行い、返します。</td>
+								</tr>
+								<tr>
+									<td>27</td>
+									<td><a href="#setExeCommandSilentMode">setExeCommandSilentMode()</a></td>
+									<td>コマンド一括実行時のログ表示を抑制します。</td>
+								</tr>
+								<tr>
+									<td>28</td>
+									<td><a href="#releaseExeCommandSilentMode">releaseExeCommandSilentMode()</a></td>
+									<td>コマンド一括実行時のログ表示を抑制を解除します。</td>
+								</tr>
+								<tr>
+									<td>29</td>
+									<td><a href="#execCommand">execCommand(command_name, values)</a></td>
+									<td>現在のコマンド一括実行時のログ表示抑制状態を返します。</td>
+								</tr>
+								<tr>
+									<td>30</td>
+									<td><a href="#assertExecCommand">assertExecCommand(command_name, values)</a></td>
+									<td>targetで指定した値をコマンドとし、valueで指定した値を引数として検証コマンドをアサーションとして実行します。</td>
+								</tr>
+								<tr>
+									<td>31</td>
+									<td><a href="#execCommandFromArray">execCommandFromArray(store_name)</a></td>
+									<td>ストアに保存された配列を元にコマンドを実行します。</td>
+								</tr>
+								<tr>
+									<td>32</td>
+									<td><a href="#assertExecCommandFromArray">assertExecCommandFromArray(store_name)</a></td>
+									<td>ストアに保存された配列を元にコマンドを実行します。</td>
+								</tr>
+								<tr>
+									<td>33</td>
+									<td><a href="#execCommandFromCsv">execCommandFromCsv(file_path)</a></td>
+									<td>CSVファイルに記載されたコマンドを一括で実行します。</td>
+								</tr>
+								<tr>
+									<td>34</td>
+									<td><a href="#assertExecCommandFromCsv">assertExecCommandFromCsv(file_path)</a></td>
+									<td>CSVファイルに記載されたコマンドをアサーションとして一括で実行します。</td>
+								</tr>
+								<tr>
+									<td>35</td>
+									<td><a href="#execCommandFromExtCsv">execCommandFromExtCsv(file_path)</a></td>
+									<td>拡張されたCSVファイルに記載されたコマンドを一括で実行します。</td>
+								</tr>
+								<tr>
+									<td>36</td>
+									<td><a href="#execCommandFromExtCsvSilent">execCommandFromExtCsvSilent(file_path)</a></td>
+									<td>拡張されたCSVファイルに記載されたコマンドを一括でログ出力無しで実行します。</td>
+								</tr>
+								<tr>
+									<td>37</td>
+									<td><a href="#assertExecCommandFromExtCsv">assertExecCommandFromExtCsv(file_path)</a></td>
+									<td>拡張されたCSVファイルに記載されたコマンドを一括で実行します。</td>
+								</tr>
+								<tr>
+									<td>38</td>
+									<td><a href="#storeFromExtCsv">storeFromExtCsv(file_path)</a></td>
+									<td>拡張されたCSVファイルに記載された値を一括でストアします。</td>
+								</tr>
+								<tr>
+									<td>39</td>
+									<td><a href="#storeCsv">storeCsv(file_path, store_name)</a></td>
+									<td>CSVファイルを配列化し、ストアします。</td>
+								</tr>
+								<tr>
+									<td>40</td>
+									<td><a href="#storeExtCsv">storeExtCsv(file_path, store_name)</a></td>
+									<td>拡張されたCSVファイルを配列化し、ストアします。</td>
+								</tr>
+								<tr>
+									<td>41</td>
+									<td><a href="#storeExtCsvPreProcess">storeExtCsvPreProcess(file_path, store_name)</a></td>
+									<td>拡張されたCSVファイルを配列化、値の展開を行ったのちストアします。</td>
+								</tr>
+								<tr>
+									<td>42</td>
+									<td><a href="#loadCsv">loadCsv(file_path)</a></td>
+									<td>CSVファイルをロードします。<br />ロードしたCSVファイルはグローバル変数の配列として保持します。</td>
+								</tr>
+								<tr>
+									<td>43</td>
+									<td><a href="#storeCsvCell">storeCsvCell(position, store_name)</a></td>
+									<td>指定したセルのデータをストアします。</td>
+								</tr>
+								<tr>
+									<td>44</td>
+									<td><a href="#eachCsvRow">eachCsvRow(position_store_name, store_name)</a></td>
+									<td>CSVデータの行をeachして、データと行数をストアします。</td>
+								</tr>
+								<tr>
+									<td>45</td>
+									<td><a href="#fetchCellFromCurrentRow">fetchCellFromCurrentRow(column, store_name)</a></td>
+									<td>CSVデータの現在の行から指定した列のデータをストアします。</td>
+								</tr>
+								<tr>
+									<td>46</td>
+									<td><a href="#storeArrayColumn">storeArrayColumn(array_info, store_name)</a></td>
+									<td>添え字で指定された要素をストアします。</td>
+								</tr>
+								<tr>
+									<td>47</td>
+									<td><a href="#listArrayColumn">listArrayColumn(array_info, store_info)</a></td>
+									<td>配列の各要素を一括でストアします。</td>
+								</tr>
+								<tr>
+									<td>48</td>
+									<td><a href="#assertTextContent">assertTextContent(locator, value)</a></td>
+									<td>targetで指定された要素が持つcontentTextを元にassertionを行います。</td>
+								</tr>
+								<tr>
+									<td>49</td>
+									<td><a href="#storeCurrentTestSuiteFolder">storeCurrentTestSuiteFolder(store_name)</a></td>
+									<td>現在実行中のテストスイートファイルがあるフォルダパスをストアに保存します。</td>
+								</tr>
+								<tr>
+									<td>50</td>
+									<td><a href="#storeCurrentTestSuitePath">storeCurrentTestSuitePath(store_name)</a></td>
+									<td>現在実行中のテストスイートファイルのフルパスをストアに保存します。</td>
+								</tr>
+								<tr>
+									<td>51</td>
+									<td><a href="#storeCurrentTestSuiteFileName">storeCurrentTestSuiteFileName(store_name)</a></td>
+									<td>現在実行中のテストスイートファイルのファイル名をストアに保存します。</td>
+								</tr>
+								<tr>
+									<td>52</td>
+									<td><a href="#storeCurrentTestCaseFolder">storeCurrentTestCaseFolder(store_name)</a></td>
+									<td>現在実行中のテストケースファイルがあるフォルダパスをストアに保存します。</td>
+								</tr>
+								<tr>
+									<td>53</td>
+									<td><a href="#storeCurrentTestCasePath">storeCurrentTestCasePath(store_name)</a></td>
+									<td>現在実行中のテストケースファイルのフルパスをストアに保存します。</td>
+								</tr>
+								<tr>
+									<td>54</td>
+									<td><a href="#storeCurrentTestCaseFileName">storeCurrentTestCaseFileName(store_name)</a></td>
+									<td>現在実行中のテストケースファイルのファイル名をストアに保存します。</td>
+								</tr>
+								<tr>
+									<td>55</td>
+									<td><a href="#arrayEach">arrayEach(array_store_name, store_name)</a></td>
+									<td>配列によるforeachを開始します。</td>
+								</tr>
+								<tr>
+									<td>56</td>
+									<td><a href="#endArrayEach">endArrayEach()</a></td>
+									<td>配列によるforeachの終了位置です。</td>
+								</tr>
+								<tr>
+									<td>57</td>
+									<td><a href="#while">while(target)</a></td>
+									<td>whileを開始します。</td>
+								</tr>
+								<tr>
+									<td>58</td>
+									<td><a href="#endWhile">endWhile()</a></td>
+									<td>whileの終了位置です。</td>
+								</tr>
+							</tbody>
+						</table>
+					</section>
+				</article>
+
+			</div>
+		</main>
+	</div>
+</div>
+
+<footer>
+	<div class="bg-dark padding-y-10">
+		<div class="container text-right">
+			<div>
+				CSS Powered by <a href="http://stanko.github.io/skyblue/" target="_blank">SkyBlue CSS Framework</a>
+			</div>
+			<div>
+				Copyright © <a href="http://www.ickx.jp/">Project ICKX</a>, 2015.
+			</div>
+			<div>
+				Contact <a href="https://twitter.com/effy_staffs" target="_blank">Twitter</a>
+			</div>
+		</div>
+	</div>
+</footer>
+
+<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+<script src="./js/jquery.sticky-kit.min.js"></script>
+<script src="./js/prettify.js"></script>
+<script src="./js/docs.js"></script>
+
+</body>
+</html>
